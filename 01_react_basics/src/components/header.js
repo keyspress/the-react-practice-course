@@ -14,7 +14,7 @@ class Header extends Component {
 
   render() {
     return (
-      <header>
+      <header className={this.state.active}>
         <div className="logo">Logo</div>
         <input type="text" onChange={this.inputChangeHandler} />
       </header>
