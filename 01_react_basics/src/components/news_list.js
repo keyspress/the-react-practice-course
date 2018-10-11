@@ -1,12 +1,16 @@
 import React from 'react';
 
 const NewsList = props => {
-  console.log(props);
-  return (
-    <div>
-      <h1>News List</h1>
-    </div>
-  );
+  const items = props.news.map(item => {
+    return (
+      <div key={item.title}>
+        <h3>{item.title}</h3>
+        <div>{item.feed}</div>
+      </div>
+    );
+  });
+
+  return <div>{items}</div>;
 };
 
 export default NewsList;
