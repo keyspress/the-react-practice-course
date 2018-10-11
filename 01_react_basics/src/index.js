@@ -15,7 +15,9 @@ class App extends Component {
     return (
       <div>
         <Header />
-        <NewsList news={this.state.news} />
+        <NewsList news={this.state.news}>
+          <h1>The News is:</h1>
+        </NewsList>
       </div>
     );
   }

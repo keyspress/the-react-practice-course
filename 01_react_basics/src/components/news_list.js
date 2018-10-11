@@ -7,7 +7,12 @@ const NewsList = props => {
     return <NewsListItem key={item.id} item={item} />;
   });
 
-  return <div>{items}</div>;
+  return (
+    <div>
+      {props.children}
+      {items}
+    </div>
+  );
 };
 
 export default NewsList;
