@@ -30,6 +30,8 @@ const App = () => {
           >
             Profile
           </NavLink>
+          <br />
+          <NavLink to="/life">Life</NavLink>
         </header>
         <Switch>
           <Route path="/posts/:id" component={PostItem} />
