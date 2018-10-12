@@ -6,6 +6,7 @@ import Home from './components/home';
 import Posts from './components/posts';
 import PostItem from './components/post_item';
 import Profile from './components/profiles';
+import Life from './components/lifecycles';
 
 const App = () => {
   return (
@@ -34,6 +35,7 @@ const App = () => {
           <Route path="/posts/:id" component={PostItem} />
           <Route path="/posts" component={Posts} />
           <Route path="/profile" component={Profile} />
+          <Route path="/life" component={Life} />
           <Route path="/" exact component={Home} />
           <Route component={Posts} />
         </Switch>
