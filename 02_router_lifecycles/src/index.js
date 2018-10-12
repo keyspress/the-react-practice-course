@@ -8,6 +8,7 @@ import PostItem from './components/post_item';
 import Profile from './components/profiles';
 import Life from './components/lifecycles';
 import Conditional from './components/conditional';
+import User from './components/user';
 
 const App = () => {
   return (
@@ -35,6 +36,8 @@ const App = () => {
           <NavLink to="/life">Life</NavLink>
           <br />
           <NavLink to="/conditional">Conditional</NavLink>
+          <br />
+          <NavLink to="/user">User</NavLink>
         </header>
         <Switch>
           <Route path="/posts/:id" component={PostItem} />
@@ -42,6 +45,7 @@ const App = () => {
           <Route path="/profile" component={Profile} />
           <Route path="/life" component={Life} />
           <Route path="/conditional" component={Conditional} />
+          <Route path="/user" component={User} />
           <Route path="/" exact component={Home} />
           <Route component={Posts} />
         </Switch>
