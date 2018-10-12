@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Route, NavLink } from 'react-router-dom';
 
 import Home from './components/home';
 import Posts from './components/posts';
+import PostItem from './components/post_item';
 import Profile from './components/profiles';
 
 const App = () => {
@@ -11,18 +12,27 @@ const App = () => {
     <BrowserRouter>
       <div>
         <header>
-          <Link to="/">Home</Link>
-          <Link to="/posts">Posts</Link>
-          <Link
+          <NavLink to="/">Home</NavLink>
+          <br />
+          <NavLink
+            to="/posts"
+            activeStyle={{ color: 'red' }}
+            activeClassName="selected"
+          >
+            Posts
+          </NavLink>
+          <br />
+          <NavLink
             to={{
               pathname: '/profile'
             }}
           >
             Profile
-          </Link>
+          </NavLink>
         </header>
         <Route path="/" exact component={Home} />
-        <Route path="/posts" component={Posts} />
+        <Route path="/posts" exact component={Posts} />
+        <Route path="/posts/:id" component={PostItem} />
         <Route path="/profile" component={Profile} />
       </div>
     </BrowserRouter>
