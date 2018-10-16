@@ -13,12 +13,27 @@ class User extends Component {
       console.log('sup');
     },
     car: { brand: 'ford', model: 'focus' },
-    mother: 'Jane'
+    mother: 'Jane',
+    color: 'red'
   };
 
+  changeColor() {
+    // this.setState({
+    //   color: 'blue'
+    // });
+    this.refs.myColor.style.color = 'blue';
+  }
+
   render() {
+    const style = {
+      color: this.state.color
+    };
     return (
       <div>
+        <h4 style={style} ref="myColor">
+          {this.state.mother}
+        </h4>
+        <div onClick={() => this.changeColor()}>Change</div>
         <UserTemplate {...this.state} />
       </div>
     );
