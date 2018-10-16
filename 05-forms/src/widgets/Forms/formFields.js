@@ -23,20 +23,30 @@ const FormFields = props => {
     return show ? <label>{label}</label> : null;
   };
 
-  const changeHandler = (e, id) => {
+  const changeHandler = (e, id, blur) => {
     const newState = props.formData;
     newState[id].value = e.target.value;
 
-    let validData = validate(newState[id]);
-    newState[id].valid = validData[0];
-    newState[id].validationMessage = validData[1];
-
+    if (blur) {
+      let validData = validate(newState[id]);
+      newState[id].valid = validData[0];
+      newState[id].validationMessage = validData[1];
+    }
+    newState[id].touched = blur;
     props.change(newState);
   };
 
   const validate = element => {
     console.log(element);
     let error = [true, ''];
+
+    if (element.validation.minLen) {
+      const valid = element.value.length >= element.validation.minLen;
+      const message = `${
+        !valid ? 'Must be greater than ' + element.validation.minLen : ''
+      }`;
+      error = !valid ? [valid, message] : error;
+    }
 
     if (element.validation.required) {
       const valid = element.value.trim() !== '';
@@ -70,7 +80,8 @@ const FormFields = props => {
             <input
               {...values.config}
               value={values.value}
-              onChange={e => changeHandler(e, data.id)}
+              onBlur={e => changeHandler(e, data.id, true)}
+              onChange={e => changeHandler(e, data.id, false)}
             />
             {showValidation(values)}
           </div>
