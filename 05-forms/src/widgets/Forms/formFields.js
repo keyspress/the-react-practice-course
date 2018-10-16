@@ -26,7 +26,8 @@ const FormFields = props => {
   const changeHandler = (e, id) => {
     const newState = props.formData;
 
-    newState[id].value = event.target.value;
+    newState[id].value = e.target.value;
+    props.change(newState);
   };
 
   const renderTemplates = data => {
