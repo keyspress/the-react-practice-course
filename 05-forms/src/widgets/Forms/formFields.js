@@ -19,14 +19,31 @@ const FormFields = props => {
     });
   };
 
+  const showLabel = (show, label) => {
+    return show ? <label>{label}</label> : null;
+  };
+
+  const changeHandler = (e, id) => {
+    const newState = props.formData;
+
+    newState[id].value = event.target.value;
+  };
+
   const renderTemplates = data => {
     let formTemplate = '';
     let values = data.settings;
     switch (values.element) {
       case 'input':
-        <div>
-          <h3>input</h3>
-        </div>;
+        formTemplate = (
+          <div>
+            {showLabel(values.label, values.labelText)}
+            <input
+              {...values.config}
+              value={values.value}
+              onChange={e => changeHandler(e, data.id)}
+            />
+          </div>
+        );
         break;
       default:
         formTemplate = null;

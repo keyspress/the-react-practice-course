@@ -30,11 +30,18 @@ class User extends Component {
     }
   };
 
+  updateForm = newState => {
+    console.log(newState);
+  };
+
   render() {
     return (
       <div className="container">
         <form onSubmit={this.submitForm}>
-          <FormFields formData={this.state.formData} />
+          <FormFields
+            formData={this.state.formData}
+            change={newState => this.updateForm(newState)}
+          />
           <button type="submit">Submit</button>
         </form>
       </div>
