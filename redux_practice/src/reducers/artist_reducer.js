@@ -5,6 +5,16 @@ export default function(state = {}, action) {
         ...state,
         artistList: action.payload
       };
+    case 'GET_ARTISTS':
+      return {
+        ...state,
+        artistList: action.payload
+      };
+    case 'GET_ARTISTS_DETAIL':
+      return {
+        ...state,
+        artistData: action.payload
+      };
     default:
       return state;
   }

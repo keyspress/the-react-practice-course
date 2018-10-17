@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 
 import Search from '../components/search';
 import Artistlist from '../components/artistlist';
-import { artistListAll } from '../actions';
+import { artistListAll, artistList } from '../actions';
 
 class HomeContainer extends Component {
   componentWillMount() {
@@ -14,8 +14,7 @@ class HomeContainer extends Component {
 
   getKeywords = event => {
     let key = event.target.value;
-
-    console.log(key);
+    this.props.artistList(key);
   };
 
   render() {
@@ -35,7 +34,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ artistListAll }, dispatch);
+  return bindActionCreators({ artistListAll, artistList }, dispatch);
 };
 
 export default connect(
