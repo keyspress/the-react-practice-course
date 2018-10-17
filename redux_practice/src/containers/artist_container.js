@@ -4,11 +4,15 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { artistDetail } from '../actions';
+import { artistDetail, clearArtistDetail } from '../actions';
 
 class ArtistContainer extends Component {
   componentWillMount() {
     this.props.artistDetail(this.props.match.params.id);
+  }
+
+  componentWillUnmount() {
+    this.props.clearArtistDetail();
   }
 
   artistTemplate = data =>
@@ -60,7 +64,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ artistDetail }, dispatch);
+  return bindActionCreators({ artistDetail, clearArtistDetail }, dispatch);
 };
 
 export default connect(
