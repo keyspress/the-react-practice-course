@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { movieslist, directorslist } from './actions';
+import { movieslist, directorslist } from '../actions';
+
+import Movieslist from '../components/moviesList';
 
 class App extends Component {
   componentWillMount() {
@@ -17,8 +19,7 @@ class App extends Component {
     console.log(this.props);
     return (
       <div>
-        <h3>List</h3>
-        {this.renderMovies(this.props.data.movies)}
+        <Movieslist {...this.props} />
       </div>
     );
   }
