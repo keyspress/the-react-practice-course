@@ -5,6 +5,11 @@ export default function(state = {}, action) {
         ...state,
         movies: action.payload
       };
+    case 'DIR_LIST':
+      return {
+        ...state,
+        directors: action.payload
+      };
     default:
       return state;
   }
