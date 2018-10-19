@@ -4,6 +4,8 @@ import Animate from 'react-move/Animate';
 
 import Otamendi from '../../../Resources/images/players/Otamendi.png';
 
+import PlayerCard from '../../ui/playerCard';
+
 class HomeCards extends Component {
   state = {
     cards: [
@@ -50,7 +52,12 @@ class HomeCards extends Component {
                 bottom
               }}
             >
-              <h3>div</h3>
+              <PlayerCard
+                number="30"
+                name="Nicolas"
+                lastName="Otamendi"
+                bck={Otamendi}
+              />
             </div>
           );
         }}
