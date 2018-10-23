@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
-import { validate } from '../../ui/misc';
+import { validate, firebaseLooper } from '../../ui/misc';
+import { firebaseMatches, firebaseTeams, firebaseDB } from '../../../firebase';
 
 import AdminLayout from '../../../Hoc/AdminLayout';
 import FormField from '../../ui/formFields';
@@ -159,6 +160,76 @@ class AddEditMatch extends Component {
       }
     }
   };
+
+  componentDidMount() {
+    const matchId = this.props.match.params.id;
+    const getTeams = (match, type) => {
+      firebaseTeams.once('value').then(snapshot => {
+        const teams = firebaseLooper(snapshot);
+        const teamOptions = [];
+
+        snapshot.forEach(childSnapshot => {
+          teamOptions.push({
+            key: childSnapshot.val().shortName,
+            value: childSnapshot.val().shortName
+          });
+        });
+        this.updateFields(match, teamOptions, teams, type, matchId);
+      });
+    };
+
+    if (!matchId) {
+    } else {
+      firebaseDB
+        .ref(`matches/${matchId}`)
+        .once('value')
+        .then(snapshot => {
+          const match = snapshot.val();
+          getTeams(match, 'Edit Match');
+        });
+    }
+  }
+
+  updateFields(match, teamOptions, teams, type, matchId) {
+    const newFormdata = {
+      ...this.state.formdata
+    };
+
+    for (let key in newFormdata) {
+      if (match) {
+        newFormdata[key].value = match[key];
+        newFormdata[key].valid = true;
+      }
+      if (key === 'local' || key === 'away') {
+        newFormdata[key].config.options = teamOptions;
+      }
+    }
+
+    this.setState({
+      matchId,
+      formType: type,
+      formdata: newFormdata,
+      teams
+    });
+  }
+
+  updateForm(element) {
+    const newFormdata = { ...this.state.formdata };
+    const newElement = { ...newFormdata[element.id] };
+
+    newElement.value = element.event.target.value;
+
+    let validData = validate(newElement);
+    newElement.valid = validData[0];
+    newElement.validationMessage = validData[1];
+
+    newFormdata[element.id] = newElement;
+
+    this.setState({
+      formError: false,
+      formdata: newFormdata
+    });
+  }
 
   render() {
     return (
