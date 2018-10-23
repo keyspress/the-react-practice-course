@@ -8,11 +8,18 @@ import PrivateRoute from './Components/authRoutes/privateRoutes';
 import PublicRoute from './Components/authRoutes/publicRoutes';
 
 import Dashboard from './Components/admin/Dashboard';
+import AdminMatches from './Components/admin/matches';
 
 const Routes = props => {
   return (
     <Layout>
       <Switch>
+        <PrivateRoute
+          {...props}
+          path="/admin_matches"
+          exact
+          component={AdminMatches}
+        />
         <PrivateRoute
           {...props}
           path="/dashboard"
