@@ -92,15 +92,51 @@ class AddEditPlayers extends Component {
     }
   };
 
+  updateFields = (player, playerId, formType, defaultImg) => {
+    const newFormdata = { ...this.state.formdata };
+    for (let key in newFormdata) {
+      newFormdata[key].value = player[key];
+      newFormdata[key].valid = true;
+    }
+
+    this.setState({
+      playerId,
+      defaultImg,
+      formType,
+      formdata: newFormdata
+    });
+  };
+
   componentDidMount() {
     const playerId = this.props.match.params.id;
 
     if (!playerId) {
       this.setState({
-        formType: 'Add Player'
+        formType: 'Add player'
       });
     } else {
-      // edit player
+      firebaseDB
+        .ref(`players/${playerId}`)
+        .once('value')
+        .then(snapshot => {
+          const playerData = snapshot.val();
+          firebase
+            .storage()
+            .ref('players')
+            .child(playerData.image)
+            .getDownloadURL()
+            .then(url => {
+              this.updateFields(playerData, playerId, 'Edit player', url);
+            })
+            .catch(e => {
+              this.updateFields(
+                { ...playerData, image: '' },
+                playerId,
+                'Edit player',
+                ''
+              );
+            });
+        });
     }
   }
 
@@ -126,6 +162,17 @@ class AddEditPlayers extends Component {
     });
   }
 
+  successForm = message => {
+    this.setState({
+      formSuccess: message
+    });
+    setTimeout(() => {
+      this.setState({
+        formSuccess: ''
+      });
+    }, 2000);
+  };
+
   submitForm(event) {
     event.preventDefault();
 
@@ -139,6 +186,15 @@ class AddEditPlayers extends Component {
 
     if (formIsValid) {
       if (this.state.formType === 'Edit player') {
+        firebaseDB
+          .ref(`players/${this.state.playerId}`)
+          .update(dataToSubmit)
+          .then(() => {
+            this.successForm('Updated correctly');
+          })
+          .catch(e => {
+            this.setState({ formError: true });
+          });
       } else {
         firebasePlayers
           .push(dataToSubmit)
