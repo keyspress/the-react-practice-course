@@ -6,6 +6,8 @@ import Home from './Components/home';
 import SignIn from './Components/signin';
 import TheTeam from './Components/theTeam';
 import TheMatches from './Components/theMatches';
+import NotFound from './Components/ui/not_found';
+
 import PrivateRoute from './Components/authRoutes/privateRoutes';
 import PublicRoute from './Components/authRoutes/publicRoutes';
 
@@ -89,6 +91,7 @@ const Routes = props => {
           exact
           component={Home}
         />
+        <PublicRoute {...props} restricted={false} component={NotFound} />
       </Switch>
     </Layout>
   );
