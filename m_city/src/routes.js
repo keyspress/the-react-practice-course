@@ -4,6 +4,7 @@ import { Switch, Route } from 'react-router-dom';
 import Layout from './Hoc/Layout';
 import Home from './Components/home';
 import SignIn from './Components/signin';
+import TheTeam from './Components/theTeam';
 import PrivateRoute from './Components/authRoutes/privateRoutes';
 import PublicRoute from './Components/authRoutes/publicRoutes';
 
@@ -65,6 +66,13 @@ const Routes = props => {
           path="/sign_in"
           exact
           component={SignIn}
+        />
+        <PublicRoute
+          {...props}
+          restricted={false}
+          path="/the_team"
+          exact
+          component={TheTeam}
         />
         <PublicRoute
           {...props}
