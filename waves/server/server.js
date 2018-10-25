@@ -13,8 +13,18 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-const port = process.env.PORT || 3002;
+// Models
+const { User } = require('./models/user');
 
+//============================
+//          USERS
+//============================
+
+app.post('/api/users/register', (req, res) => {
+  res.status(200);
+});
+
+const port = process.env.PORT || 3002;
 app.listen(port, () => {
   console.log(`Server Running on port ${port}`);
 });
