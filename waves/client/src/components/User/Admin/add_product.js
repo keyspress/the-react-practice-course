@@ -7,7 +7,11 @@ import {
   isFormValid,
   populateOptionFields
 } from '../../utils/Form/formActions';
-import { getBrands, getWoods } from '../../../actions/products_actions';
+import {
+  getBrands,
+  getWoods,
+  addProduct
+} from '../../../actions/products_actions';
 
 import UserLayout from '../../../hoc/user';
 import FormField from '../../utils/Form/formfield';
@@ -179,6 +183,43 @@ class AddProduct extends Component {
     this.setState({
       formdata: newFormData
     });
+  };
+
+  updateForm = element => {
+    const newFormdata = update(element, this.state.formdata, 'products');
+    this.setState({
+      formError: false,
+      formdata: newFormdata
+    });
+  };
+
+  resetFieldHandler = () => {
+    this.setState({
+      formSuccess: true
+    });
+  };
+
+  submitForm = event => {
+    event.preventDefault();
+
+    let dataToSubmit = generateData(this.state.formdata, 'register');
+    let formIsValid = isFormValid(this.state.formdata, 'register');
+
+    if (formIsValid) {
+      this.props.dispatch(addProduct(dataToSubmit)).then(() => {
+        if (this.props.products.addProduct.success) {
+          this.resetFieldHandler();
+        } else {
+          this.setState({
+            formError: true
+          });
+        }
+      });
+    } else {
+      this.setState({
+        formError: true
+      });
+    }
   };
 
   componentDidMount() {
