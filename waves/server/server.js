@@ -60,7 +60,13 @@ app.post('/api/product/shop', (req, res) => {
     .sort([[sortBy, order]])
     .skip(skip)
     .limit(limit)
-    .exec(() => {});
+    .exec((err, articles) => {
+      if (err) return res.status(400).send(err);
+      res.status(200).json({
+        size: articles.length,
+        articles
+      });
+    });
 });
 
 app.get('/api/product/articles', (req, res) => {
