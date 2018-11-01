@@ -1,9 +1,13 @@
 import React from 'react';
 
-export default function LoadmoreCards() {
+import CardBlockShop from '../utils/card_block_shop';
+
+export default function LoadmoreCards(props) {
   return (
     <div>
-      <h3>load more</h3>
+      <div>
+        <CardBlockShop grid={props.grid} list={props.products} />
+      </div>
     </div>
   );
 }
