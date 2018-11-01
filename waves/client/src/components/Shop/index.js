@@ -11,6 +11,7 @@ import { frets, price } from '../utils/Form/fixed_categories';
 import PageTop from '../utils/page_top';
 import CollapseCheckbox from '../utils/collapseCheckbox';
 import CollapseRadio from '../utils/collapseRadio';
+import LoadmoreCards from './loadmoreCards';
 
 class Shop extends Component {
   state = {
