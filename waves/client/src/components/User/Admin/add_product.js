@@ -269,7 +269,18 @@ class AddProduct extends Component {
     });
   }
 
-  imagesHandler = () => {};
+  imagesHandler = images => {
+    const newFormData = {
+      ...this.state.formdata
+    };
+
+    newFormData['images'].value = images;
+    newFormData['images'].valid = true;
+
+    this.setState({
+      formdata: newFormData
+    });
+  };
 
   render() {
     return (
