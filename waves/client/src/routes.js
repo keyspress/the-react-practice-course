@@ -7,6 +7,7 @@ import Home from './components/Home';
 import RegisterLogin from './components/Register_login';
 import Register from './components/Register_login/register';
 import Shop from './components/Shop';
+import ProductPage from './components/Product';
 
 import UserDashboard from './components/User';
 import AddProduct from './components/User/Admin/add_product';
@@ -30,6 +31,11 @@ const Routes = () => {
           path="/admin/manage_categories"
           exact
           component={Auth(ManageCategories, true)}
+        />
+        <Route
+          path="/product_detail/:id"
+          exact
+          component={Auth(ProductPage, null)}
         />
         <Route path="/register" exact component={Auth(Register, false)} />
         <Route
