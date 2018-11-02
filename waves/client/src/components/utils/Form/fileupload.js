@@ -35,7 +35,22 @@ export default class Fileupload extends Component {
     });
   };
 
-  onRemove = id => {};
+  onRemove = id => {
+    axios.get(`/api/users/removeimage?public_id=${id}`).then(response => {
+      let images = this.state.uploadedFiles.filter(item => {
+        return item.public_id !== id;
+      });
+
+      this.setState(
+        {
+          uploadedFiles: images
+        },
+        () => {
+          this.props.imagesHandler(images);
+        }
+      );
+    });
+  };
 
   showUploadedImages = () =>
     this.state.uploadedFiles.map(item => (
@@ -50,6 +65,15 @@ export default class Fileupload extends Component {
         />
       </div>
     ));
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.reset) {
+      return (state = {
+        uploadedFiles: []
+      });
+    }
+    return null;
+  }
 
   render() {
     return (
