@@ -5,12 +5,14 @@ import {
   update,
   generateData,
   isFormValid,
-  populateOptionFields
+  populateOptionFields,
+  resetFields
 } from '../../utils/Form/formActions';
 import {
   getBrands,
   getWoods,
-  addProduct
+  addProduct,
+  clearProduct
 } from '../../../actions/products_actions';
 
 import UserLayout from '../../../hoc/user';
@@ -194,16 +196,28 @@ class AddProduct extends Component {
   };
 
   resetFieldHandler = () => {
+    const newFormData = resetFields(this.state.formdata, 'products');
     this.setState({
+      formdata: newFormData,
       formSuccess: true
     });
+    setTimeout(() => {
+      this.setState(
+        {
+          formSuccess: false
+        },
+        () => {
+          this.props.dispatch(clearProduct());
+        }
+      );
+    }, 3000);
   };
 
   submitForm = event => {
     event.preventDefault();
 
-    let dataToSubmit = generateData(this.state.formdata, 'register');
-    let formIsValid = isFormValid(this.state.formdata, 'register');
+    let dataToSubmit = generateData(this.state.formdata, 'products');
+    let formIsValid = isFormValid(this.state.formdata, 'products');
 
     if (formIsValid) {
       this.props.dispatch(addProduct(dataToSubmit)).then(() => {
