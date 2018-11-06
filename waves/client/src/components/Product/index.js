@@ -5,6 +5,7 @@ import {
   getProductDetail,
   clearProductDetail
 } from '../../actions/products_actions';
+import { addToCart } from '../../actions/user_actions';
 
 import PageTop from '../utils/page_top';
 import ProdNfo from './prodNfo';
@@ -22,6 +23,10 @@ class ProductPage extends Component {
 
   componentWillUnmount() {
     this.props.dispatch(clearProductDetail());
+  }
+
+  addToCartHandler(id) {
+    this.props.dispatch(addToCart(id));
   }
 
   render() {
