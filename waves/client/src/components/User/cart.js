@@ -4,7 +4,7 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faFrown from '@fortawesome/fontawesome-free-solid/faFrown';
 import faSmile from '@fortawesome/fontawesome-free-solid/faSmile';
 
-import { getCartItems } from '../../actions/user_actions';
+import { getCartItems, removeCartItem } from '../../actions/user_actions';
 
 import UserLayout from '../../hoc/user';
 import UserProductBlock from '../utils/User/product_block';
@@ -51,7 +51,17 @@ class UserCart extends Component {
     });
   };
 
-  removeFromCart = () => {};
+  removeFromCart = id => {
+    this.props.dispatch(removeCartItem(id)).then(() => {
+      if (this.props.user.cartDetail.length <= 0) {
+        this.setState({
+          showTotal: false
+        });
+      } else {
+        this.calculateTotal(this.props.user.cartDetail);
+      }
+    });
+  };
 
   showNoItemMessage = () => (
     <div className="cart_no_items">
