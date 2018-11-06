@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+import { addToCart } from '../../actions/user_actions';
+
 import MyButton from './button';
 
-export default class Card extends Component {
+class Card extends Component {
   renderCardImage(images) {
     if (images.length > 0) {
       return images[0].url;
@@ -33,7 +37,7 @@ export default class Card extends Component {
             </div>
           ) : null}
           <div className="actions">
-            <div className="button_wrapper">
+            <div className="button_wrapp">
               <MyButton
                 type="default"
                 altClass="card_link"
@@ -42,11 +46,13 @@ export default class Card extends Component {
                 addStyles={{ margin: '10px 0 0 0' }}
               />
             </div>
-            <div className="button_wrapper">
+            <div className="button_wrapp">
               <MyButton
                 type="bag_link"
                 runAction={() => {
-                  console.log('added to cart');
+                  props.user.userData.isAuth
+                    ? this.props.dispatch(addToCart(props._id))
+                    : console.log('you need to log in');
                 }}
               />
             </div>
@@ -56,3 +62,11 @@ export default class Card extends Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    user: state.user
+  };
+};
+
+export default connect(mapStateToProps)(Card);
