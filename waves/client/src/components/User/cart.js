@@ -4,7 +4,11 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faFrown from '@fortawesome/fontawesome-free-solid/faFrown';
 import faSmile from '@fortawesome/fontawesome-free-solid/faSmile';
 
-import { getCartItems, removeCartItem } from '../../actions/user_actions';
+import {
+  getCartItems,
+  removeCartItem,
+  onSuccessBuy
+} from '../../actions/user_actions';
 
 import UserLayout from '../../hoc/user';
 import UserProductBlock from '../utils/User/product_block';
@@ -80,10 +84,21 @@ class UserCart extends Component {
   };
 
   transactionSuccess = data => {
-    this.setState({
-      showTotal: false,
-      showSuccess: true
-    });
+    this.props
+      .dispatch(
+        onSuccessBuy({
+          cartDetail: this.props.user.cartDetail,
+          paymentData: data
+        })
+      )
+      .then(() => {
+        if (this.props.user.successBuy) {
+          this.setState({
+            showTotal: false,
+            showSuccess: true
+          });
+        }
+      });
   };
 
   render() {
