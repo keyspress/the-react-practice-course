@@ -8,7 +8,7 @@ import {
   isFormValid,
   populateFields
 } from '../../utils/Form/formActions';
-// import { registerUser } from '../../actions/user_actions';
+import { getSiteData } from '../../../actions/site_actions';
 
 import FormField from '../../utils/Form/formfield';
 
@@ -110,6 +110,19 @@ class UpdateSiteNfo extends Component {
       });
     }
   };
+
+  componentDidMount() {
+    this.props.dispatch(getSiteData()).then(() => {
+      console.log(this.props.site.siteData[0]);
+      const newFormData = populateFields(
+        this.state.formdata,
+        this.props.site.siteData[0]
+      );
+      this.setState({
+        formdata: newFormData
+      });
+    });
+  }
 
   render() {
     return (
