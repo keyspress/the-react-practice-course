@@ -3,7 +3,6 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const formidable = require('express-formidable');
 const cloudinary = require('cloudinary');
-const mailer = require('nodemailer');
 
 const app = express();
 const mongoose = require('mongoose');
@@ -42,30 +41,33 @@ app.all('/', function(req, res, next) {
   next();
 });
 
-const smtpTransport = mailer.createTransport({
-  service: 'Gmail',
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
-  }
-});
+// UTILS
+const { sendEmail } = require('./utils/mail/index');
 
-let mail = {
-  from: `Kyle <${process.env.EMAIL_USER}>`,
-  to: process.env.EMAIL_RECEIVER,
-  subject: 'Send test email',
-  text: 'testing the mail sender',
-  html: '<b>It works!</b>'
-};
+// const smtpTransport = mailer.createTransport({
+//   service: 'Gmail',
+//   auth: {
+//     user: process.env.EMAIL_USER,
+//     pass: process.env.EMAIL_PASS
+//   }
+// });
 
-smtpTransport.sendMail(mail, function(err, response) {
-  if (err) {
-    console.log(err);
-  } else {
-    console.log('email sent');
-  }
-  smtpTransport.close();
-});
+// let mail = {
+//   from: `Kyle <${process.env.EMAIL_USER}>`,
+//   to: process.env.EMAIL_RECEIVER,
+//   subject: 'Send test email',
+//   text: 'testing the mail sender',
+//   html: '<b>It works!</b>'
+// };
+
+// smtpTransport.sendMail(mail, function(err, response) {
+//   if (err) {
+//     console.log(err);
+//   } else {
+//     console.log('email sent');
+//   }
+//   smtpTransport.close();
+// });
 
 //============================
 //          PRODUCTS
@@ -234,7 +236,8 @@ app.post('/api/users/register', (req, res) => {
 
   user.save((err, doc) => {
     if (err) return res.json({ success: false, err });
-    res.status(200).json({
+    sendEmail(doc.email, doc.name, null, 'welcome');
+    return res.status(200).json({
       success: true
     });
   });
