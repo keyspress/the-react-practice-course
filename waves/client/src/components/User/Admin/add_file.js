@@ -28,6 +28,40 @@ class AddFile extends Component {
       header: { 'content-type': 'multipart/form-data' }
     };
     formData.append('file', files[0]);
+
+    axios.post('/api/users/uploadfile', formData, config).then(response => {
+      if (response.data.success) {
+        this.setState(
+          {
+            formSuccess: true,
+            formError: false,
+            uploading: false
+          },
+          () => {
+            setTimeout(() => {
+              this.setState({ formSuccess: false });
+            }, 2000);
+          }
+        );
+      }
+    });
+  }
+
+  showFileList = () =>
+    this.state.files
+      ? this.state.files.map((item, i) => (
+          <li key={i}>
+            <Link to={`/api/users/download/${item}`} target="_blank">
+              {item}
+            </Link>
+          </li>
+        ))
+      : null;
+
+  componentDidMount() {
+    axios.get('/api/users/admin_files').then(response => {
+      this.setState({ files: response.data });
+    });
   }
 
   render() {
@@ -61,7 +95,9 @@ class AddFile extends Component {
             ) : null}
           </div>
           <hr />
-          <div>uploads</div>
+          <div>
+            <ul>{this.showFileList()}</ul>
+          </div>
         </div>
       </UserLayout>
     );
