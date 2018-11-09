@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const formidable = require('express-formidable');
 const cloudinary = require('cloudinary');
 const SHA1 = require('crypto-js/sha1');
+const moment = require('moment');
 
 const app = express();
 const mongoose = require('mongoose');
@@ -262,6 +263,27 @@ app.post('/api/users/reset_user', (req, res) => {
       return res.json({ success: true });
     });
   });
+});
+
+app.post('/api/users/reset_password', (req, res) => {
+  var today = moment()
+    .startOf('day')
+    .valueOf();
+  User.findOne(
+    { resetToken: req.body.resetToken, resetTokenExp: { $gte: today } },
+    (err, user) => {
+      if (!user)
+        return res.json({ success: false, message: 'Sorry, bad token' });
+      user.password = req.body.password;
+      user.resetToken = '';
+      user.resetTokenExp = '';
+
+      user.save((err, doc) => {
+        if (err) return res.json({ success: false, err });
+        return res.status(200).json({ success: true });
+      });
+    }
+  );
 });
 
 app.get('/api/users/auth', auth, (req, res) => {
