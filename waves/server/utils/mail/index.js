@@ -3,6 +3,7 @@ require('dotenv').config();
 
 const { welcome } = require('./welcome_template');
 const { purchase } = require('./purchase_template');
+const { resetPass } = require('./resetpass_template');
 
 const getEmailData = (to, name, token, template, actionData) => {
   let data = null;
@@ -20,8 +21,16 @@ const getEmailData = (to, name, token, template, actionData) => {
       data = {
         from: `Kyle <${process.env.EMAIL_USER}>`,
         to,
-        subject: `Thanks for shopping with us${name}!`,
+        subject: `Thanks for shopping with us ${name}!`,
         html: purchase(actionData)
+      };
+      break;
+    case 'reset_password':
+      data = {
+        from: `Kyle <${process.env.EMAIL_USER}>`,
+        to,
+        subject: `Hey ${name} reset your password!`,
+        html: resetPass(actionData)
       };
       break;
     default:
